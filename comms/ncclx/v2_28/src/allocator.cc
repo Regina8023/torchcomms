@@ -69,6 +69,7 @@ ncclResult_t  ncclMemAlloc(void **ptr, size_t size) {
       /* Allocate the physical memory on the device */
       CUCHECK(cuMemCreate(&handle, handleSize, &memprop, 0));
     }
+    logMemoryEvent(CommLogData{}, "", "ncclMemAlloc", reinterpret_cast<uintptr_t>(*ptr), handleSize);
     /* Reserve a virtual address range */
     CUCHECK(cuMemAddressReserve((CUdeviceptr*)ptr, handleSize, memGran, 0, 0));
     /* Map the virtual address range to the physical allocation */
